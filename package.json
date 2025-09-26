@@ -1,6 +1,6 @@
 {
   "name": "mps-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MPS平台开发辅助MCP服务，提供系统管理、表单模板、代码生成等功能",
   "type": "module",
   "main": "dist/index.js",
@@ -15,7 +15,14 @@
     "lint": "prettier --check . && eslint . && tsc --noEmit",
     "shell": "ts-node -i"
   },
-  "keywords": ["mcp", "mps", "platform", "development", "tools", "automation"],
+  "keywords": [
+    "mcp",
+    "mps",
+    "platform",
+    "development",
+    "tools",
+    "automation"
+  ],
   "author": "MPS Platform Team",
   "license": "MIT",
   "repository": {
