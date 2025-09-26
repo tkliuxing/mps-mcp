@@ -65,19 +65,18 @@ export async function getSystemProjectRouterTree(project_id: string) : Promise<s
 export async function createSystemProjectRouter(
     sys_id: number,
     project_id: string,
-    parent_id: string | null,
+    parent_id: string | null = null,
     path: string,
     title: string | null,
     name: string,
-    component: string | null,
-    redirect: string | null,
+    component: string | null = null,
+    redirect: string | null = null,
     props: boolean,
-    alias: string | null,
-    meta: string | null,
-    permission_id: string | null) : Promise<string> {
+    meta: string | null = null,
+    permission_id: string | null = null) : Promise<string> {
     let data = {
         sys_id,
-        project_id,
+        project: project_id,
         parent_id,
         path,
         title,
@@ -85,13 +84,17 @@ export async function createSystemProjectRouter(
         component,
         redirect,
         props,
-        alias,
         meta,
-        permission_id,
+        permission: permission_id,
     };
     const axios = createAuthenticatedAxios();
-    const response = await axios.post(`https://main.test.nmhuixin.com/api/v1/systempr/`, data);
-    return JSON.stringify(response.data);
+    try{
+        const response = await axios.post(`https://main.test.nmhuixin.com/api/v1/systempr/`, data);
+        return JSON.stringify(response.data);
+    }catch (error: any) {
+        let content = JSON.stringify(error.response.data);
+        return `创建失败: ${content}`;
+    }
 }
 
 // 删除指定项目的路由
@@ -133,12 +136,12 @@ export async function createSystemProjectMenu(
     permission_id: string | null) : Promise<string> {
     let data = {
         sys_id,
-        project_id,
+        project: project_id,
         parent_id,
         name,
         icon,
         router_name,
-        permission_id,
+        permission: permission_id,
     };
     const axios = createAuthenticatedAxios();
     const response = await axios.post(`https://main.test.nmhuixin.com/api/v1/systempm/`, data);

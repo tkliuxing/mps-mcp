@@ -69,16 +69,15 @@ server.addTool({
   parameters: z.object({
     sys_id: z.number().describe("系统ID（sys_id）"),
     project_id: z.string().describe("项目ID（project_id）"),
-    parent_id: z.string().describe("父级路由ID（parent_id）"),
+    parent_id: z.nullable(z.string()).default(null).describe("父级路由ID（parent_id）"),
     path: z.string().describe("路由路径（path）"),
     title: z.string().describe("路由页面标题（title）"),
     name: z.string().describe("路由名称（name）"),
     component: z.string().describe("路由组件（component）"),
-    redirect: z.string().describe("路由重定向（redirect）"),
-    props: z.boolean().describe("路由传参（props）"),
-    alias: z.string().describe("路由别名（alias）"),
-    meta: z.string().describe("路由元信息（meta）"),
-    permission_id: z.string().describe("权限ID（permission_id）")
+    redirect: z.nullable(z.string()).default(null).describe("路由重定向（redirect）"),
+    props: z.boolean().default(false).describe("路由传参（props）"),
+    meta: z.nullable(z.string()).default(null).describe("路由元信息（给vue-router用的meta信息，JSON字符串）"),
+    permission_id: z.nullable(z.string()).default(null).describe("权限ID（permission_id）")
   }),
   execute: async (args) => {
     return await createSystemProjectRouter(
@@ -91,7 +90,6 @@ server.addTool({
       args.component,
       args.redirect,
       args.props,
-      args.alias,
       args.meta,
       args.permission_id);
   },
@@ -124,11 +122,11 @@ server.addTool({
   parameters: z.object({
     sys_id: z.number().describe("系统ID（sys_id）"),
     project_id: z.string().describe("项目ID（project_id）"),
-    parent_id: z.string().describe("父级菜单ID（parent_id）"),
+    parent_id: z.nullable(z.string()).default(null).describe("父级菜单ID（parent_id）"),
     name: z.string().describe("菜单名称（name）"),
-    icon: z.string().describe("图标（icon）"),
+    icon: z.nullable(z.string()).default(null).describe("图标（icon）"),
     router_name: z.string().describe("路由名称（router_name）"),
-    permission_id: z.string().describe("权限ID（permission_id）")
+    permission_id: z.nullable(z.string()).default(null).describe("权限ID（permission_id）")
   }),
   execute: async (args) => {
     return await createSystemProjectMenu(
