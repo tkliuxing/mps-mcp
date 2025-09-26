@@ -1,0 +1,51 @@
+{
+  "name": "mps-mcp",
+  "version": "1.0.0",
+  "description": "MPS平台开发辅助MCP服务，提供系统管理、表单模板、代码生成等功能",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mps-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx src/index.ts",
+    "dev": "fastmcp dev src/index.ts",
+    "inspect": "fastmcp inspect src/index.ts",
+    "lint": "prettier --check . && eslint . && tsc --noEmit",
+    "shell": "ts-node -i"
+  },
+  "keywords": ["mcp", "mps", "platform", "development", "tools", "automation"],
+  "author": "MPS Platform Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tkliuxing/mps-mcp.git"
+  },
+  "homepage": "https://github.com/tkliuxing/mps-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/tkliuxing/mps-mcp/issues"
+  },
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "fastmcp": "^3.18.0",
+    "fs-extra": "^11.2.0",
+    "yauzl": "^3.2.0",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@tsconfig/node22": "^22.0.2",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^24.5.2",
+    "@types/yauzl": "^2.10.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-perfectionist": "^4.15.0",
+    "prettier": "^3.6.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.1"
+  }
+}
