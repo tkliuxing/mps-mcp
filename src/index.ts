@@ -23,6 +23,92 @@ const server = new FastMCP({
   version: "1.0.0",
 });
 
+// 模块开发过程
+server.addPrompt({
+  name: "module-development",
+  description: "MPS前端模块开发过程",
+  arguments: [
+    {
+      name: "sys_id",
+      description: "系统ID",
+      required: true,
+    },
+    {
+      name: "project_id",
+      description: "项目ID",
+      required: true,
+    },
+    {
+      name: "module_name",
+      description: "模块名称（中文名）",
+      required: true,
+    }
+  ],
+  load: async (args) => {
+    return `
+    使用以下步骤完成${args.module_name}模块的开发：
+    1. 获取MPS平台系统列表
+    2. 获取 sys_id = ${args.sys_id} 系统的功能权限树
+    3. 获取指定系统的表单模板定义列表，找到${args.module_name}模块的表单模板定义, 获取到 PK 用于后续生成前端代码
+    4. 使用模块名称（${args.module_name}）的拼音字母（驼峰式）作为模块名，在 src/pages 中创建相应模块的目录 src/pages/${args.module_name}的拼音字母
+    4. 使用第3步获取到的 PK 用 exportFrontendCodeTemplate 工具导出前端代码到以上目录（使用绝对路径）
+    5. 将导出的前端代码的 Index.vue 文件在 src/pageReg.js 中增加引用
+    6. 获取 project_id = ${args.project_id} 项目的路由树
+    7. 选取合适的路由树节点（至少在 "/" 下）作为上级，创建${args.module_name}模块的路由
+    8. 获取 project_id = ${args.project_id} 项目的菜单树
+    9. 选取合适的菜单树节点作为上级（可为空），创建${args.module_name}模块的菜单
+    10. 完成
+
+    使用以下工具完成：
+    - getSystemList
+    - getSystemPermissionTree
+    - listSystemFormTemplate
+    - exportFrontendCodeTemplate
+    - getSystemProjectRouterTree
+    - createSystemProjectRouter
+    - getSystemProjectMenuTree
+    - createSystemProjectMenu
+    `;
+  }
+});
+
+// 模块开发过程说明工具
+server.addTool({
+  name: "module-development-description",
+  description: "模块开发过程说明",
+  parameters: z.object({
+    sys_id: z.number().describe("系统ID（sys_id）"),
+    project_id: z.string().describe("项目ID（project_id）"),
+    module_name: z.string().describe("模块名称（module_name）"),
+  }),
+  execute: async (args) => {
+    return `
+    使用以下步骤完成${args.module_name}模块的开发：
+    1. 获取MPS平台系统列表
+    2. 获取 sys_id = ${args.sys_id} 系统的功能权限树
+    3. 获取指定系统的表单模板定义列表，找到${args.module_name}模块的表单模板定义, 获取到 PK 用于后续生成前端代码
+    4. 使用模块名称（${args.module_name}）的拼音字母（驼峰式）作为模块名，在 src/pages 中创建相应模块的目录 src/pages/${args.module_name}的拼音字母
+    4. 使用第3步获取到的 PK 用 exportFrontendCodeTemplate 工具导出前端代码到以上目录（使用绝对路径）
+    5. 将导出的前端代码的 Index.vue 文件在 src/pageReg.js 中增加引用
+    6. 获取 project_id = ${args.project_id} 项目的路由树
+    7. 选取合适的路由树节点（至少在 "/" 下）作为上级，创建${args.module_name}模块的路由
+    8. 获取 project_id = ${args.project_id} 项目的菜单树
+    9. 选取合适的菜单树节点作为上级（可为空），创建${args.module_name}模块的菜单
+    10. 完成
+    
+    使用以下工具完成：
+    - getSystemList
+    - getSystemPermissionTree
+    - listSystemFormTemplate
+    - exportFrontendCodeTemplate
+    - getSystemProjectRouterTree
+    - createSystemProjectRouter
+    - getSystemProjectMenuTree
+    - createSystemProjectMenu
+    `;
+  },
+})
+
 // 获取MPS平台系统列表
 server.addTool({
   name: "getSystemList",
@@ -154,7 +240,7 @@ server.addTool({
 // 获取前端代码模版定义列表
 server.addTool({
   name: "getFrontendCodeTemplateList",
-  description: "获取前端代码模版定义列表",
+  description: "获取前端代码模版定义列表(已废弃)",
   parameters: z.object({tmpl_type: z.literal(["vue", "uni-app"]).describe("模版类型（tmpl_type）")}),
   execute: async (args) => {
     return await getFrontendCodeTemplateList(args.tmpl_type);

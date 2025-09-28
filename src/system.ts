@@ -74,7 +74,7 @@ export async function createSystemProjectRouter(
     props: boolean,
     meta: string | null = null,
     permission_id: string | null = null) : Promise<string> {
-    let data = {
+    let data: any = {
         sys_id,
         project: project_id,
         parent_id,
@@ -82,11 +82,15 @@ export async function createSystemProjectRouter(
         title,
         name,
         component,
-        redirect,
         props,
-        meta,
         permission: permission_id,
     };
+    if(redirect) {
+        data.redirect = redirect;
+    }
+    if(meta) {
+        data.meta = meta;
+    }
     const axios = createAuthenticatedAxios();
     try{
         const response = await axios.post(`https://main.test.nmhuixin.com/api/v1/systempr/`, data);
@@ -134,15 +138,19 @@ export async function createSystemProjectMenu(
     icon: string | null,
     router_name: string | null,
     permission_id: string | null) : Promise<string> {
-    let data = {
+    let data: any = {
         sys_id,
         project: project_id,
-        parent_id,
         name,
         icon,
         router_name,
-        permission: permission_id,
     };
+    if(parent_id) {
+        data.parent_id = parent_id;
+    }
+    if(permission_id) {
+        data.permission = permission_id;
+    }
     const axios = createAuthenticatedAxios();
     const response = await axios.post(`https://main.test.nmhuixin.com/api/v1/systempm/`, data);
     return JSON.stringify(response.data);
