@@ -1,6 +1,6 @@
 {
   "name": "mps-mcp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "MPS平台开发辅助MCP服务，提供系统管理、表单模板、代码生成等功能",
   "type": "module",
   "main": "dist/index.js",
