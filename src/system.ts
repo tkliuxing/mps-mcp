@@ -65,7 +65,7 @@ export async function getSystemProjectRouterTree(project_id: string) : Promise<s
 export async function createSystemProjectRouter(
     sys_id: number,
     project_id: string,
-    parent_id: string | null = null,
+    parent: string | null = null,
     path: string,
     title: string | null,
     name: string,
@@ -77,7 +77,7 @@ export async function createSystemProjectRouter(
     let data: any = {
         sys_id,
         project: project_id,
-        parent_id,
+        parent,
         path,
         title,
         name,
@@ -124,7 +124,7 @@ export async function getSystemProjectMenuTree(project_id: string) : Promise<str
 /* 
     sys_id: int = Field(..., description='系统ID')
     project_id: str = Field(..., description='项目ID')
-    parent_id: Optional[str] = Field(None, description='父级菜单ID')
+    parent: Optional[str] = Field(None, description='父级菜单ID')
     name: str = Field(..., description='菜单名称')
     icon: Optional[str] = Field(None, description='图标')
     router_name: Optional[str] = Field(None, description='路由名称')
@@ -133,7 +133,7 @@ export async function getSystemProjectMenuTree(project_id: string) : Promise<str
 export async function createSystemProjectMenu(
     sys_id: number,
     project_id: string,
-    parent_id: string | null,
+    parent: string | null,
     name: string,
     icon: string | null,
     router_name: string | null,
@@ -141,13 +141,11 @@ export async function createSystemProjectMenu(
     let data: any = {
         sys_id,
         project: project_id,
+        parent,
         name,
         icon,
         router_name,
     };
-    if(parent_id) {
-        data.parent_id = parent_id;
-    }
     if(permission_id) {
         data.permission = permission_id;
     }
