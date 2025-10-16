@@ -47,6 +47,33 @@ export async function listSystemFormTemplate(sys_id: number) : Promise<string> {
     return JSON.stringify(form_template_list);
 }
 
+// 获取指定ID的表单定义
+export async function getSystemFormTemplate(template_id: string) : Promise<string> {
+    const axios = createAuthenticatedAxios();
+    const response = await axios.get(`https://main.test.nmhuixin.com/api/v1/formtemplate/${template_id}/`);
+    let form_template = response.data;
+    let fields = [];
+    for (let f of form_template.field) {
+        fields.push({
+            alias: f.alias,
+            col_title: f.col_title,
+            in_filter: f.in_filter,
+            local_data_source: f.local_data_source ? JSON.parse(f.local_data_source) : null,
+            widget: f.widget,
+            widget_attr: f.widget_attr ? JSON.parse(f.widget_attr) : null,
+        });
+    }
+    return JSON.stringify({
+        id: form_template.pk,
+        title: form_template.title,
+        api_name: form_template.api_name,
+        keyword: form_template.keyword,
+        remark: form_template.remark,
+        header_conf: form_template.header_conf,
+        fields: fields,
+    });
+}
+
 // 获取指定系统的功能权限树
 export async function getSystemPermissionTree(sys_id: number) : Promise<string> {
     const axios = createAuthenticatedAxios();

@@ -5,6 +5,7 @@ import { authenticateFromEnv } from "./auth.js";
 import {
   getSystemList,
   listSystemFormTemplate,
+  getSystemFormTemplate,
   getSystemPermissionTree,
   getSystemProjectRouterTree,
   createSystemProjectRouter,
@@ -129,6 +130,16 @@ server.addTool({
   parameters: z.object({sys_id: z.number().describe("系统ID (sys_id) ")}),
   execute: async (args) => {
     return await listSystemFormTemplate(args.sys_id);
+  },
+});
+
+// 获取指定template_id的表单定义
+server.addTool({
+  name: "getSystemFormTemplate",
+  description: "获取指定template_id的表单定义",
+  parameters: z.object({template_id: z.string().describe("表单模板ID (template_id) ")}),
+  execute: async (args) => {
+    return await getSystemFormTemplate(args.template_id);
   },
 });
 
